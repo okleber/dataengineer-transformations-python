@@ -12,7 +12,7 @@ if __name__ == '__main__':
     logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
     logging.info(sys.argv)
 
-    if len(sys.argv) is not 3:
+    if len(sys.argv) < 3:
         logging.warning("Input source and output path are required")
         sys.exit(1)
 
@@ -20,8 +20,8 @@ if __name__ == '__main__':
     sc = spark.sparkContext
     app_name = sc.appName
     logging.info("Application Initialized: " + app_name)
-    input_path = sys.argv[1]
-    output_path = sys.argv[2]
+    input_path = sys.argv[1:-1]
+    output_path = sys.argv[-1:]
     ingest.run(spark, input_path, output_path)
     logging.info("Application Done: " + spark.sparkContext.appName)
     spark.stop()
